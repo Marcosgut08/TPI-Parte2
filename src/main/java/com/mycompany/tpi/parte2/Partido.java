@@ -6,12 +6,14 @@ public class Partido {
     private Equipo equipoVisitante;
     private int golesEquipo1;
     private int golesEquipo2;
+    public int codigoPartido;
 
-    public Partido(Equipo equipoLocal, Equipo equipoVisitante, int golesEquipo1, int golesEquipo2) {
+    public Partido(Equipo equipoLocal, Equipo equipoVisitante, int golesEquipo1, int golesEquipo2, int codigoPartido) {
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
         this.golesEquipo1 = golesEquipo1;
         this.golesEquipo2 = golesEquipo2;
+        this.codigoPartido = codigoPartido;
     }
 
     public ResultadoEnum Resultado(Equipo equipo) {

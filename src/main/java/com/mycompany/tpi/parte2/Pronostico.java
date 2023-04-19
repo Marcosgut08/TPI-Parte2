@@ -1,31 +1,36 @@
-
 package com.mycompany.tpi.parte2;
 
-
 public class Pronostico {
+
     private int codigoPartido;
     private Equipo equipo;
     private ResultadoEnum resultado;
-    
-    
-    public Pronostico(){
-    
+    private String nombrePersona;
+
+    public Pronostico() {
+
     }
 
-
-    public Pronostico(int codigoPartido, Equipo equipo, int codigo) {
-      
+    public Pronostico(String nombrePersona, int codigoPartido, Equipo equipo, int codigo) {
+        this.nombrePersona = nombrePersona;
         this.codigoPartido = codigoPartido;
         this.equipo = equipo;
         this.resultado = new ResultadoEnum(codigo);
     }
+ 
     int puntos = 0;
+
     public int Puntos(Partido partido) {
-        
-        while(partido.Resultado(getEquipo()).getCodigo() == this.resultado.getCodigo()) {
-            return puntos = puntos + 1;
+
+        if(partido.Resultado(getEquipo()).getCodigo() == this.resultado.getCodigo()) {
+            puntos += 1;
+            
         }
-      return puntos;
+        return puntos;
+    }
+
+    public String getNombre() {
+        return this.nombrePersona;
     }
 
     public int getCodigoPartido() {
@@ -51,5 +56,5 @@ public class Pronostico {
     public void setResultado(ResultadoEnum resultado) {
         this.resultado = resultado;
     }
-    
+
 }
