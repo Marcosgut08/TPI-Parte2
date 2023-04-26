@@ -10,8 +10,9 @@ public class ResultadoEnum {
         this.codigo = codigo;
         if(codigo == 0)
             this.descripcion = "Ganador";
-        if(codigo == 1)
+        else if (codigo == 1) {
             this.descripcion = "Perdedor";
+        }
         else
             this.descripcion = "Empate";
     }
@@ -24,7 +25,7 @@ public class ResultadoEnum {
     
 
     public int getCodigo() {
-        return codigo;
+        return this.codigo;
     }
 
     public void setCodigo(int codigo) {

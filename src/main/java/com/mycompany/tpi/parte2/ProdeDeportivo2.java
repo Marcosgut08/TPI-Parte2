@@ -19,11 +19,12 @@ public class ProdeDeportivo2 {
 
         List<Partido> partidos = new ArrayList<>();
         List<Pronostico> list_pronostico = new ArrayList<>();
-        ResultadoEnum resultado = null;
+       // List<Integer> resultados =new ArrayList<>();
+        //ResultadoEnum resultado = null;
         List<Persona> personas = new ArrayList<>();
 
         // Obtener las rutas de los archivos de partidos y resultados
-        //String archivoPronostico = "src\\main\\java\\com\\mycompany\\tpi\\parte2\\pronostico.csv";
+
         String archivoResultados = "src\\main\\java\\com\\mycompany\\tpi\\parte2\\resultados.csv";
 
         try (BufferedReader lector = new BufferedReader(new FileReader(archivoResultados))) {
@@ -58,7 +59,7 @@ public class ProdeDeportivo2 {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/prode";
-            String user = "usertest";
+            String user = "root";
             String password = "MySQLpassword1";
             connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
@@ -70,7 +71,6 @@ public class ProdeDeportivo2 {
                 Equipo equipo = new Equipo(rs.getString(4), "Equipo local");
                 int codigo = rs.getInt(5);
                 list_pronostico.add(new Pronostico(nombrePersona, codigoPartido, equipo, codigo));
-                resultado = new ResultadoEnum(codigo);
 
 
             }
@@ -82,31 +82,6 @@ public class ProdeDeportivo2 {
         }
 
 
-        /*try (BufferedReader lector = new BufferedReader(new FileReader(archivoPronostico))) {
-            String linea;
-            lector.readLine();
-            while ((linea = lector.readLine()) != null) {
-                String[] campos = linea.split(",");
-                String nombrePersona = campos[0];
-                int codigoPartido = Integer.parseInt(campos[1]);
-                Equipo equipo = new Equipo(campos[2], "equipo local");
-                int codigo = Integer.parseInt(campos[3]);
-                pronostico.add(new Pronostico(nombrePersona, codigoPartido, equipo, codigo));
-                resultado = new ResultadoEnum(codigo);
-            }
-        } catch (IOException e) {
-            System.err.println("Error al leer archivo partidos: " + e.getMessage());
-            return;
-        }
-        Persona persona1 = new Persona();
-        Persona persona2 = new Persona();
-        String nombreInicial = pronostico.get(0).getNombre();
-        for (Pronostico p : pronostico) {
-            if (p.getNombre().equals(nombreInicial)) {
-                persona1.CargarPronostico(p);
-            } else {
-                persona2.CargarPronostico(p);
-            }*/
         Persona persona1 = new Persona();
         Persona persona2 = new Persona();
         String nombreInicial = list_pronostico.get(0).getNombre();
@@ -116,7 +91,7 @@ public class ProdeDeportivo2 {
             } else {
                 persona2.CargarPronostico(p);
             }
-
+            int puntosConfig =2;//configuración de puntos asignados por pronostico acertado
             persona1.SetNombre("Mariana");
             persona2.SetNombre("Pedro");
             for (int i = 0; i < partidos.size(); i++) {
@@ -125,7 +100,7 @@ public class ProdeDeportivo2 {
                         if (p1.Puntos(partidos.get(i)) == 1) {
                             persona1.pronosticosAcertados += 1;
                         }
-                        persona1.puntos = persona1.pronosticosAcertados;
+                        persona1.puntos = persona1.pronosticosAcertados*puntosConfig;
 
                     }
                 }
@@ -134,23 +109,13 @@ public class ProdeDeportivo2 {
                         if (p2.Puntos(partidos.get(i)) == 1) {
                             persona2.pronosticosAcertados += 1;
                         }
-                        persona2.puntos = persona2.pronosticosAcertados;
+                        persona2.puntos = persona2.pronosticosAcertados*puntosConfig;
 
                     }
                 }
             }
         }
-        int totalPuntos = 0;
 
-        for (Pronostico p : list_pronostico) {
-            for (Partido partido : partidos) {
-
-                while (p.getCodigoPartido() == resultado.getCodigo()) {
-                    totalPuntos = p.Puntos(partido);
-                    break; // Salimos del bucle interno
-                }
-            }
-        }
         System.out.println("La cantidad de pronosticos acertados por " + persona1.GetNombre() + " fue de: " + persona1.pronosticosAcertados + ".\n Sumando un total de " + persona1.puntos + " puntos.");
         System.out.println("La cantidad de pronosticos acertados por " + persona2.GetNombre() + " fue de: " + persona2.pronosticosAcertados + ".\n Sumando un total de " + persona2.puntos + " puntos.");
 
